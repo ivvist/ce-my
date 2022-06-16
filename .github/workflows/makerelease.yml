@@ -1,0 +1,31 @@
+name: Go
+on:
+  push:
+    tags:        
+      - '*'
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Get the version
+      id: get_version
+      run: |
+        echo ::set-output name=tag_version::${GITHUB_REF/refs\/tags\//}
+        echo ::set-output name=branch_name::${GITHUB_HEAD_REF}
+
+    - name: Publish release
+      shell: bash
+      run: |
+          chmod +x ./.github/scripts/git-release.sh
+          ./.github/scripts/git-release.sh
+      env: 
+        token: ${{ secrets.personal_token }}
+        tagversion: ${{ steps.get_version.outputs.tag_version }}
+        branchname: ${{ steps.get_version.outputs.branch_name }}
+
+
