@@ -28,6 +28,7 @@ if [[ ! -f ${buildsh} ]]; then
 fi
 
 # Execute build.sh
+echo "Running build.sh with $tagversion"
 sh build.sh $tagversion
 
 builddir=".build"
