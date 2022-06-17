@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -Eeuo pipefail
+#set -Eeuo pipefail
 
 [ -z ${1-} ] && { echo "use build.sh VersionCore [PreRelease]"; exit 1; }
 
