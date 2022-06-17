@@ -95,7 +95,7 @@ echo "Making new app build..."
 bash build.sh ${shver} ${shrel}
 
 builddir=".build"
- Check if new ".build" folder exists
+echo "Check if new ".build" folder exists"
 if [[ ! -d ${builddir} ]]; then	 
   echo "Folder .build does not exists. Something went wrong during building."
   exit 1
