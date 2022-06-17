@@ -1,5 +1,6 @@
 #!/bin/bash
 
+branchname="main"
 # Get version from tag
 s='-'
 ver=$tagversion
@@ -12,12 +13,17 @@ fi
 
 text=""
 # Get pre-release flag
-prever="${ver#*$s}"
-prever="${prever//[[:blank:]]/}"
+prerelease="${ver#*$s}"
+prerelease="${prerelease//[[:blank:]]/}"
+new_branchname="rc"
 pr=true
-if [[ ${version} == ${prever} ]];then
+if [[ ${version} == ${prerelease} ]];then
+   new_branchname="release"
    pr=false
+else
+   version=$version-$prerelease
 fi
+echo "Tag will be done with version: $version-$prerelease"
 
 cd ./.
 buildsh="build.sh"
@@ -28,19 +34,43 @@ if [[ ! -f ${buildsh} ]]; then
 fi
 
 # Execute build.sh
-echo "Running build.sh with $tagversion"
-sh build.sh $tagversion
+sh build.sh
 
 builddir=".build"
 # Check if new ".build" folder exists
 if [[ ! -d ${builddir} ]]; then	 
-  echo "Folder .build does not exists. Something wnet wrong during building."
+  echo "Folder .build does not exists. Something went wrong during building."
   exit 1
 fi
 
-branch=${branchname}
+if [[ -z $branchname ]]
+then 
+  echo "Can not define current branch name."
+  exit 1
+fi	
+prev_branchname=$branchname
+
 repo_full_name=$(git config --get remote.origin.url | sed 's/.*:\/\/github.com\///;s/.git$//')
 
+# delete existing rc branch - not needed old one
+git push origin :$new_branchname
+
+# set upstream to parent heeus repo 
+git remote add upstream https://github.com/${repo_full_name}
+
+# get last code from upstream
+git pull -p upstream ${prev_branchname}
+
+git stash
+# create devbranch with topic number
+git checkout -b ${new_branchname}
+
+# get last from newbranch
+git pull -p -r origin ${new_branchname}
+
+git push -u origin ${new_branchname}
+
+branch=${new_branchname}
 echo "Create release $version for repo: $repo_full_name branch: $branch"
 generate_post_data()
 {
@@ -55,12 +85,13 @@ generate_post_data()
 }
 EOF
 }
+
 id=$(curl -H "Accept: application/json" \
    -H "Authorization: token ${token}" \
    -d "$(generate_post_data)" \
    https://api.github.com/repos/$repo_full_name/releases | jq -r '.id')
 
-if [[ -z ${id} ]];then
+if [ -z ${id} ] || [[ ${id} == null ]]; then
   echo "release_id is empty"
   exit 1
 fi
@@ -78,5 +109,8 @@ do
       --data-binary @$fname ${url}
    fi
 done
+
+# Switch to original branch
+git checkout -b ${old_branchname}
 
 echo "All files are uploaded"

@@ -1,4 +1,4 @@
-name: Go
+name: Build & Publish
 on:
   push:
     tags:        
@@ -16,7 +16,6 @@ jobs:
       id: get_version
       run: |
         echo ::set-output name=tag_version::${GITHUB_REF/refs\/tags\//}
-        echo ::set-output name=branch_name::${GITHUB_HEAD_REF}
 
     - name: Publish release
       shell: bash
@@ -26,6 +25,5 @@ jobs:
       env: 
         token: ${{ secrets.personal_token }}
         tagversion: ${{ steps.get_version.outputs.tag_version }}
-        branchname: ${{ steps.get_version.outputs.branch_name }}
 
 
