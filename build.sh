@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -Eeuo pipefail
+set -Eeuo pipefail
 
 [ -z ${1-} ] && { echo "use build.sh VersionCore [PreRelease]"; exit 1; }
 
@@ -15,18 +15,14 @@ echo $SemVer > version
 
 # Functions
 
-cleanup() {      
+function cleanup {      
   # Restore version
   git checkout -- version
 }
 
-build_os_arch() {
+function build_os_arch {
 
-  if [[ $1 == "windows" ]]; then  
-    exeName = "ce.exe" 
-  else
-    exeName="ce"
-  fi
+  [ $1 == "windows" ] && exeName="ce.exe" || exeName="ce"
 
   pushd . > /dev/null
   cd cli
@@ -41,7 +37,7 @@ build_os_arch() {
 
 # End of functions
 
-sh cleanup EXIT
+trap cleanup EXIT
 
 # Cleanup
 

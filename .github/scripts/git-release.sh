@@ -38,7 +38,7 @@ if [[ ! -f ${buildsh} ]]; then
 fi
 
 # Execute build.sh
-sh build.sh ${shver} ${shrel}
+build.sh ${shver} ${shrel}
 
 builddir=".build"
 # Check if new ".build" folder exists
