@@ -20,7 +20,7 @@ cleanup() {
   git checkout -- version
 }
 
-function build_os_arch {
+build_os_arch() {
 
   [ $1 == "windows" ] && exeName="ce.exe" || exeName="ce"
 
@@ -46,8 +46,8 @@ rm -rf $BuildFolder
 
 # Build os+arch
 
-build_os_arch linux amd64
-build_os_arch freebsd amd64
-build_os_arch windows amd64
+sh build_os_arch linux amd64
+sh build_os_arch freebsd amd64
+sh build_os_arch windows amd64
 
 cp install/install.sh $BuildFolder
