@@ -90,8 +90,9 @@ if [ -z ${id} ] || [[ ${id} == null ]]; then
   exit 1
 fi
 
+echo "Making new app build..."
 # Execute build.sh
-#bash build.sh ${shver} ${shrel}
+bash build.sh ${shver} ${shrel}
 
 builddir=".build"
  Check if new ".build" folder exists
