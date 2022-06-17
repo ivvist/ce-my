@@ -20,8 +20,12 @@ pr=true
 if [[ ${version} == ${prerelease} ]];then
    new_branchname="release"
    pr=false
+   shver=${version}
+   shrel=""
 else
    version=$version-$prerelease
+   shver=${version}
+   shrel=${prerelease}
 fi
 echo "Tag will be done with version: $version-$prerelease"
 
@@ -34,7 +38,7 @@ if [[ ! -f ${buildsh} ]]; then
 fi
 
 # Execute build.sh
-sh build.sh
+sh build.sh ${shver} ${shrel}
 
 builddir=".build"
 # Check if new ".build" folder exists
