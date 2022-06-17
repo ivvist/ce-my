@@ -15,7 +15,7 @@ echo $SemVer > version
 
 # Functions
 
-function cleanup {      
+cleanup() {      
   # Restore version
   git checkout -- version
 }
@@ -37,7 +37,7 @@ function build_os_arch {
 
 # End of functions
 
-trap cleanup EXIT
+sh cleanup EXIT
 
 # Cleanup
 
