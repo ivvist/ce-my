@@ -23,7 +23,6 @@ jobs:
           chmod +x ./.github/scripts/git-release.sh
           ./.github/scripts/git-release.sh
       env: 
-        token: ${{ secrets.personal_token }}
         tagversion: ${{ steps.get_version.outputs.tag_version }}
 
 

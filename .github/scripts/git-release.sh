@@ -86,7 +86,6 @@ EOF
 }
 
 id=$(curl -H "Accept: application/json" \
-   -H "Authorization: token ${token}" \
    -d "$(generate_post_data)" \
    https://api.github.com/repos/$repo_full_name/releases | jq -r '.id')
 
@@ -114,7 +113,6 @@ do
      url="https://uploads.github.com/repos/$repo_full_name/releases/${id}/assets?name=$(basename $fname)"
      echo "url: $url"
      curl \
-      -H "Authorization: token ${token}" \
       -H "Content-Type: $(file -b --mime-type $fname)" \
       --data-binary @$fname ${url}
    fi
