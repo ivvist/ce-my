@@ -27,7 +27,7 @@ else
    shver=${version}
    shrel=${prerelease}
 fi
-echo "Tag will be done with version: $version-$prerelease"
+echo "Tag will be done with version: $shver-$shrel"
 
 cd ./.
 buildsh="build.sh"
