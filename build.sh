@@ -22,7 +22,11 @@ cleanup() {
 
 build_os_arch() {
 
-  [ $1 == "windows" ] && exeName="ce.exe" || exeName="ce"
+  if [[ $1 == "windows" ]]; then  
+    exeName = "ce.exe" 
+  else
+    exeName="ce"
+  fi
 
   pushd . > /dev/null
   cd cli
