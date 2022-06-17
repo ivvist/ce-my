@@ -26,7 +26,7 @@ function build_os_arch {
 
   pushd . > /dev/null
   cd cli
-  git config --global url."https://${token}:x-oauth-basic@github.com/heeus".insteadOf "https://github.com/heeus
+  git config --global url."https://${token}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
   env GOOS=$1 GOARCH=$2 GOPRIVATE=github.com/heeus/* go build -o ../$BuildFolder/$exeName
   popd > /dev/null
 
