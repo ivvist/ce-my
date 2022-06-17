@@ -31,6 +31,7 @@ func (ce *ce) Run() error {
 	ctx = ce.start(ctx)
 
 	sig := <-signals
+	fmt.Println(sig)
 	cancel()
 	return ce.join(ctx)
 }
@@ -44,7 +45,6 @@ func (ce *ce) start(ctx context.Context) (newCtx context.Context) {
 func (ce *ce) run(ctx context.Context) {
 	defer ce.wg.Done()
 	for ctx.Err() == nil {
-		logger.Info("running")
 		time.Sleep(1 * time.Second)
 	}
 }
