@@ -12,6 +12,8 @@ import (
 	"os/signal"
 	"sync"
 	"time"
+
+	logger "github.com/heeus/core-logger"
 )
 
 type ce struct {
@@ -23,6 +25,8 @@ var signals chan os.Signal
 
 func (ce *ce) Run() error {
 
+	logger.Info(fmt.Sprintf("config: %+v", ce.cfg))
+
 	ctx, cancel := context.WithCancel(context.Background())
 
 	signals = make(chan os.Signal, 1)
@@ -31,7 +35,7 @@ func (ce *ce) Run() error {
 	ctx = ce.start(ctx)
 
 	sig := <-signals
-	fmt.Println(sig)
+	logger.Info("signal received:", sig)
 	cancel()
 	return ce.join(ctx)
 }
@@ -44,12 +48,17 @@ func (ce *ce) start(ctx context.Context) (newCtx context.Context) {
 
 func (ce *ce) run(ctx context.Context) {
 	defer ce.wg.Done()
+	logger.Info("Server started")
 	for ctx.Err() == nil {
+		logger.Info("running")
 		time.Sleep(1 * time.Second)
 	}
+	logger.Info("Server finished")
 }
 
 func (ce *ce) join(_ context.Context) (err error) {
+	logger.Info("waiting for the Server...")
 	ce.wg.Wait()
+	logger.Info("done")
 	return nil
 }

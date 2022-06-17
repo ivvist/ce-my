@@ -26,8 +26,7 @@ function build_os_arch {
 
   pushd . > /dev/null
   cd cli
-  go env -w GOPRIVATE=github.com/ivvist/*
-  env GOOS=$1 GOARCH=$2 go build -o ../$BuildFolder/$exeName
+  env GOOS=$1 GOARCH=$2 GOPRIVATE=github.com/heeus/* go build -o ../$BuildFolder/$exeName
   popd > /dev/null
 
   pushd $BuildFolder > /dev/null
