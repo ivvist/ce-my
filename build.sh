@@ -46,8 +46,8 @@ rm -rf $BuildFolder
 
 # Build os+arch
 
-sh build_os_arch linux amd64
-sh build_os_arch freebsd amd64
-sh build_os_arch windows amd64
+build_os_arch linux amd64
+build_os_arch freebsd amd64
+build_os_arch windows amd64
 
 cp install/install.sh $BuildFolder
