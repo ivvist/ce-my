@@ -12,7 +12,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/heeus/ce"
+	"github.com/ivvist/ce"
 )
 
 func init() {

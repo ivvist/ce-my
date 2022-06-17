@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	logger "github.com/heeus/core-logger"
+	logger "github.com/ivvist/core-logger"
 )
 
 type ce struct {
