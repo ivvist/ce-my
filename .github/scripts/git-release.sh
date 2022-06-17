@@ -37,16 +37,6 @@ if [[ ! -f ${buildsh} ]]; then
   exit 1
 fi
 
-# Execute build.sh
-bash build.sh ${shver} ${shrel}
-
-builddir=".build"
-# Check if new ".build" folder exists
-if [[ ! -d ${builddir} ]]; then	 
-  echo "Folder .build does not exists. Something went wrong during building."
-  exit 1
-fi
-
 if [[ -z $branchname ]]
 then 
   echo "Can not define current branch name."
@@ -97,6 +87,16 @@ id=$(curl -H "Accept: application/json" \
 
 if [ -z ${id} ] || [[ ${id} == null ]]; then
   echo "release_id is empty"
+  exit 1
+fi
+
+# Execute build.sh
+bash build.sh ${shver} ${shrel}
+
+builddir=".build"
+# Check if new ".build" folder exists
+if [[ ! -d ${builddir} ]]; then	 
+  echo "Folder .build does not exists. Something went wrong during building."
   exit 1
 fi
 
